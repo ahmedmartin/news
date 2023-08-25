@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class NetworkImageLayout extends StatelessWidget {
@@ -7,23 +8,22 @@ class NetworkImageLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      imageUrl,
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
       height: 200,
-      width:MediaQuery.of(context).size.width,
-      cacheHeight: 1700,
-      cacheWidth: 2500,
-      loadingBuilder: (context, child, loadingProgress) =>
-          loadingProgress == null
-              ? child
-              : Image.asset('assets/listing/placeholder.png',height: 200,width:MediaQuery.of(context).size.width,fit: BoxFit.fill,),
-      errorBuilder: (context, error, stackTrace) => const Center(
-          child: Icon(
-        Icons.error,
-        color: Colors.red,
-        size: 130,
-      )),
-      fit: BoxFit.fill,
+      width: MediaQuery.of(context).size.width,
+      fit: BoxFit.fitWidth,
+      placeholder: (context, url) =>  Image.asset('assets/listing/placeholder.png',height: 200,width:MediaQuery.of(context).size.width,fit: BoxFit.fill,),
+      errorWidget: (context, url, error) => Container(
+          width: MediaQuery.of(context).size.width,
+          color: Colors.grey[300],
+          child: const Center(
+              child: Icon(
+            Icons.error,//Icons.error,
+            color: Colors.red,
+            size: 130,
+          )),
+        ),
     );
   }
 }
